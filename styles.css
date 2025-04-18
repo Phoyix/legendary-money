@@ -7,27 +7,28 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #f7f9fc;
-    color: #333;
+    background-color: #000;
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
 }
 
 .app-container {
     display: flex;
-    max-width: 1200px;
+    height: 100%;
     width: 100%;
-    background-color: white;
-    border-radius: 15px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
 }
 
 .sidebar {
-    background-color: #3a80f4;
-    color: white;
+    background-color: #000;
+    color: #fff;
     width: 250px;
     padding: 30px;
     text-align: center;
@@ -42,7 +43,7 @@ body {
 }
 
 .sidebar nav button {
-    background-color: #56a0e1;
+    background-color: #333;
     border: none;
     color: white;
     font-size: 1.1rem;
@@ -56,20 +57,21 @@ body {
 
 .sidebar nav button:hover,
 .sidebar nav button.active {
-    background-color: #4676b8;
+    background-color: #555;
 }
 
 .main-content {
     flex-grow: 1;
     padding: 40px;
     overflow-y: auto;
+    background-color: #fff;
 }
 
 h3 {
     font-size: 1.8rem;
     margin-bottom: 20px;
     font-weight: 600;
-    color: #444;
+    color: #333;
 }
 
 input[type="text"],
@@ -89,7 +91,7 @@ textarea {
 button.btn {
     width: 100%;
     padding: 15px;
-    background-color: #3a80f4;
+    background-color: #333;
     color: white;
     border: none;
     border-radius: 10px;
@@ -100,7 +102,7 @@ button.btn {
 }
 
 button.btn:hover {
-    background-color: #56a0e1;
+    background-color: #555;
 }
 
 textarea {
