@@ -1,3 +1,4 @@
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -6,108 +7,154 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-    padding: 20px;
-}
-
-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-header h1 {
-    font-size: 36px;
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-
-header p {
-    font-size: 18px;
-    color: #7f8c8d;
-}
-
-main {
+    background-color: #f0f4f8;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.card {
-    background-color: white;
-    border-radius: 10px;
+    align-items: flex-start;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
 }
 
-.card h2 {
-    font-size: 24px;
+.app-container {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.sidebar {
+    background-color: #3498db;
+    color: white;
+    width: 250px;
+    padding: 30px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.sidebar h2 {
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+}
+
+.sidebar nav button {
+    background-color: #2980b9;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+.sidebar nav button:hover,
+.sidebar nav button.active {
+    background-color: #1c6ea4;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 30px;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+h3 {
+    font-size: 1.6rem;
     margin-bottom: 20px;
 }
 
-.card form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.card label {
-    font-weight: bold;
-}
-
-.card input {
-    padding: 10px;
-    border-radius: 8px;
+input[type="text"], input[type="number"], input[type="date"], textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
     border: 1px solid #ddd;
-    font-size: 16px;
+    background-color: #f7f7f7;
+    font-size: 1rem;
 }
 
-.card input:focus {
-    outline: none;
-    border-color: #3498db;
-}
-
-.btn {
+button.btn {
+    width: 100%;
     padding: 12px;
     background-color: #3498db;
     color: white;
-    font-size: 16px;
     border: none;
-    border-radius: 30px;
+    border-radius: 12px;
     cursor: pointer;
+    font-size: 1rem;
     transition: background-color 0.3s ease;
 }
 
-.btn:hover {
+button.btn:hover {
     background-color: #2980b9;
 }
 
-.delete-btn {
-    background-color: #e74c3c;
+textarea {
+    resize: vertical;
+    height: 150px;
 }
 
-.delete-btn:hover {
-    background-color: #c0392b;
-}
-
-.goals-list {
+/* List Styling */
+#goals-list, #notes-list {
     margin-top: 20px;
 }
 
-.goal {
+.goal, .note {
     background-color: #ecf0f1;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 15px;
-    text-align: center;
+    position: relative;
+}
+
+button.delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 8px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+}
+
+button.delete-btn:hover {
+    background-color: #c0392b;
 }
 
 footer {
     text-align: center;
-    margin-top: 40px;
-    font-size: 14px;
-    color: #7f8c8d;
+    margin-top: 30px;
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
 }
