@@ -13,9 +13,10 @@
     </header>
     
     <main>
+        <!-- Goal Section -->
         <section class="card">
             <h2>Start a New Goal</h2>
-            <form>
+            <form id="goal-form">
                 <label for="goal-name">Goal Name</label>
                 <input type="text" id="goal-name" placeholder="e.g., New Laptop" required>
 
@@ -29,15 +30,25 @@
             </form>
         </section>
 
+        <!-- Goals List Section -->
         <section class="card">
             <h2>Your Goals</h2>
-            <div class="goals-list">
-                <div class="goal">
-                    <h3>New Laptop</h3>
-                    <p>Target: $1000 | Deadline: 2025-05-01</p>
-                    <button class="btn delete-btn">Delete Goal</button>
-                </div>
-                <!-- More goals will be listed here -->
+            <div id="goals-list">
+                <!-- Goals will be dynamically added here -->
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section class="card">
+            <h2>Your Notes</h2>
+            <form id="note-form">
+                <label for="note-content">Write a Note</label>
+                <textarea id="note-content" placeholder="Write a reminder or note..." required></textarea>
+                <button type="submit" class="btn">Save Note</button>
+            </form>
+
+            <div id="notes-list">
+                <!-- Notes will be dynamically added here -->
             </div>
         </section>
     </main>
@@ -45,5 +56,7 @@
     <footer>
         <p>&copy; 2025 Legendary Money</p>
     </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
