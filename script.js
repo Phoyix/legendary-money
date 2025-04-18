@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         goal.innerHTML = `
             <h4>${name}</h4>
             <p>Target: $${amount} | Deadline: ${deadline}</p>
-            <button class="delete-btn">Delete</button>
+            <button class="delete-btn">×</button>
         `;
         goal.querySelector('.delete-btn').addEventListener('click', () => goal.remove());
         goalsList.appendChild(goal);
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         note.classList.add('note');
         note.innerHTML = `
             <p>${content}</p>
-            <button class="delete-btn">Delete</button>
+            <button class="delete-btn">×</button>
         `;
         note.querySelector('.delete-btn').addEventListener('click', () => note.remove());
         notesList.appendChild(note);
