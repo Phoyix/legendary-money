@@ -3,59 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Money Saving App</title>
+    <title>Legendary Money</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Legendary Money</h1>
-        <p>Save for your goals in style!</p>
-    </header>
-    
-    <main>
-        <!-- Goal Section -->
-        <section class="card">
-            <h2>Start a New Goal</h2>
-            <form id="goal-form">
-                <label for="goal-name">Goal Name</label>
-                <input type="text" id="goal-name" placeholder="e.g., New Laptop" required>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Legendary Money</h2>
+            <nav>
+                <button class="tab-btn active" data-tab="goals">Goals</button>
+                <button class="tab-btn" data-tab="notes">Notes</button>
+            </nav>
+        </div>
 
-                <label for="amount">Target Amount</label>
-                <input type="number" id="amount" placeholder="e.g., 1000" required>
+        <!-- Main content -->
+        <div class="main-content">
+            <!-- Goals Tab -->
+            <section id="goals" class="tab-content active">
+                <h3>Create a Goal</h3>
+                <form id="goal-form">
+                    <input type="text" id="goal-name" placeholder="Goal Name" required>
+                    <input type="number" id="amount" placeholder="Target Amount" required>
+                    <input type="date" id="deadline" required>
+                    <button type="submit" class="btn">Add Goal</button>
+                </form>
+                <div id="goals-list"></div>
+            </section>
 
-                <label for="deadline">Deadline</label>
-                <input type="date" id="deadline" required>
-
-                <button type="submit" class="btn">Create Goal</button>
-            </form>
-        </section>
-
-        <!-- Goals List Section -->
-        <section class="card">
-            <h2>Your Goals</h2>
-            <div id="goals-list">
-                <!-- Goals will be dynamically added here -->
-            </div>
-        </section>
-
-        <!-- Notes Section -->
-        <section class="card">
-            <h2>Your Notes</h2>
-            <form id="note-form">
-                <label for="note-content">Write a Note</label>
-                <textarea id="note-content" placeholder="Write a reminder or note..." required></textarea>
-                <button type="submit" class="btn">Save Note</button>
-            </form>
-
-            <div id="notes-list">
-                <!-- Notes will be dynamically added here -->
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025 Legendary Money</p>
-    </footer>
+            <!-- Notes Tab -->
+            <section id="notes" class="tab-content">
+                <h3>Create a Note</h3>
+                <form id="note-form">
+                    <textarea id="note-content" placeholder="Write a note..." required></textarea>
+                    <button type="submit" class="btn">Save Note</button>
+                </form>
+                <div id="notes-list"></div>
+            </section>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
