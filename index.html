@@ -1,60 +1,266 @@
+<!-- Restored full-feature dashboard with goals and notes -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Legendary Money</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <div class="app-container">
-        <!-- Sidebar (Tabs on the left side) -->
-        <div class="sidebar">
-            <h2>Legendary Money</h2>
-            <nav>
-                <button class="tab-btn active" data-tab="goals">Goals</button>
-                <button class="tab-btn" data-tab="notes">Notes</button>
-            </nav>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moneyeer Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background-color: #f9fafb; color: #1f2937; }
+    .sidebar {
+      width: 220px; background-color: #ffffff;
+      border-right: 1px solid #e5e7eb; padding: 30px 20px; min-height: 100vh;
+    }
+    .sidebar h2 { margin-bottom: 30px; font-weight: 700; }
+    .sidebar a {
+      display: block; padding: 10px 14px; text-decoration: none;
+      color: #1f2937; border-radius: 8px; margin-bottom: 10px;
+    }
+    .sidebar a.active, .sidebar a:hover { background-color: #e0e7ff; }
+    .main { width: 100%; padding: 40px; }
+    .summary, .wallets, .goals { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+    .card, .wallet, .goal, .note-box {
+      background: white; padding: 20px; border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex: 1 1 300px;
+    }
+    .note-box { text-align: center; color: #9ca3af; }
+    .progress-bar { background-color: #e5e7eb; height: 8px; border-radius: 12px; overflow: hidden; margin-top: 5px; }
+    .progress-bar-inner { height: 100%; background-color: #3b82f6; width: 0%; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .btn {
+      background: #111827; color: white; padding: 8px 14px;
+      border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+    }
+    .btn:hover { background: #1f2937; }
+    .modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5); display: none;
+      justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background: white; padding: 20px; border-radius: 12px; width: 300px;
+    }
+    .modal input {
+      padding: 8px; margin: 10px 0; width: 100%; border: 1px solid #000;
+    }
+  </style>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD8q7ry5dZt-pKlkSEoTEFPMujub2JTfkw",
+    authDomain: "my-awesome-project-104ff.firebaseapp.com",
+    projectId: "my-awesome-project-104ff",
+    storageBucket: "my-awesome-project-104ff.firebasestorage.app",
+    messagingSenderId: "65569755641",
+    appId: "1:65569755641:web:a01bce9d3d9c4f08ebad28"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
+
+
+  </div>
+  
+  <div class="main">
+    <div class="header">
+      <h1>Dashboard</h1>
+      <p>Track your financial goals and savings</p>
+    </div>
+    <div class="summary">
+      <div class="card">
+        <p>Total Balance</p>
+        <h2 id="total-balance">฿3,700.00</h2>
+        <p style="color: #9ca3af; font-size: 14px;">2 wallets</p>
+      </div>
+      <div class="card">
+        <p>Goals Progress</p>
+        <h2>40%</h2>
+        <p style="color: #9ca3af; font-size: 14px;">฿425,000.00 / ฿1,050,000.00</p>
+        <div class="progress-bar">
+          <div class="progress-bar-inner" style="width: 40%;"></div>
         </div>
-
-        <!-- Main content area (Tabs' content) -->
-        <div class="main-content">
-            <header>
-                <h1>Legendary Money</h1>
-            </header>
-
-            <!-- Goals Tab -->
-            <section id="goals" class="tab-content active">
-                <h3>Create a Goal</h3>
-                <form id="goal-form">
-                    <label for="goal-name">Goal Name</label>
-                    <input type="text" id="goal-name" placeholder="Goal Name" required>
-                    
-                    <label for="amount">Target Amount</label>
-                    <input type="number" id="amount" placeholder="Target Amount" required>
-                    
-                    <label for="deadline">Deadline</label>
-                    <input type="date" id="deadline" required>
-                    
-                    <button type="submit" class="btn">Add Goal</button>
-                </form>
-                <div id="goals-list"></div>
-            </section>
-
-            <!-- Notes Tab -->
-            <section id="notes" class="tab-content">
-                <h3>Create a Note</h3>
-                <form id="note-form">
-                    <label for="note-content">Note Content</label>
-                    <textarea id="note-content" placeholder="Write a note..." required></textarea>
-                    
-                    <button type="submit" class="btn">Save Note</button>
-                </form>
-                <div id="notes-list"></div>
-            </section>
-        </div>
+      </div>
+      <div class="card">
+        <p>Notes</p>
+        <h2 id="note-count">0</h2>
+        <p style="color: #9ca3af; font-size: 14px;">Financial reminders & notes</p>
+      </div>
     </div>
 
-    <script src="script.js"></script>
+    <div class="section-header">
+      <h3>Your Wallets</h3>
+      <button class="btn" onclick="document.getElementById('wallet-modal').style.display='flex'">+ New Wallet</button>
+    </div>
+    <div class="wallets" id="wallets-container">
+      <div class="wallet">
+        <strong>Emergency Fund</strong>
+        <p style="color: #6b7280;">For unexpected expenses</p>
+        <h3>฿2,500.00</h3>
+      </div>
+      <div class="wallet">
+        <strong>Travel</strong>
+        <p style="color: #6b7280;">For vacation in summer</p>
+        <h3>฿1,200.00</h3>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h3>Savings Goals</h3>
+      <button class="btn" onclick="document.getElementById('goal-modal').style.display='flex'">+ New Goal</button>
+    </div>
+    <div class="goals" id="goals-container">
+      <div class="goal">
+        <strong>New Laptop</strong>
+        <p style="color: #6b7280;">Saving for a new work laptop</p>
+        <div class="progress-bar">
+          <div class="progress-bar-inner" style="width: 29.4%;"></div>
+        </div>
+        <small>฿25,000.00 / ฿85,000.00</small>
+        <p style="color: #9ca3af; font-size: 14px;">Deadline: 7/17/2025</p>
+      </div>
+      <div class="goal">
+        <strong>House Down Payment</strong>
+        <p style="color: #6b7280;">Saving for a house down payment</p>
+        <div class="progress-bar">
+          <div class="progress-bar-inner" style="width: 40%;"></div>
+        </div>
+        <small>฿400,000.00 / ฿1,000,000.00</small>
+        <p style="color: #9ca3af; font-size: 14px;">Deadline: 4/18/2026</p>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h3>Recent Notes</h3>
+      <button class="btn" onclick="document.getElementById('note-modal').style.display='flex'">+ New Note</button>
+    </div>
+    <div class="note-box" id="note-box">
+      <p style="font-size: 24px;">📝</p>
+      <p>No notes yet</p>
+      <small>Create a note to keep track of financial reminders</small>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal" id="wallet-modal">
+    <div class="modal-content">
+      <h3>Add New Wallet</h3>
+      <input type="text" id="wallet-name" placeholder="Wallet Name">
+      <input type="text" id="wallet-purpose" placeholder="Purpose">
+      <input type="number" id="wallet-amount" placeholder="Amount">
+      <button class="btn" onclick="addWallet()">Add</button>
+      <button class="btn" style="margin-left: 10px; background:#6b7280" onclick="document.getElementById('wallet-modal').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal" id="goal-modal">
+    <div class="modal-content">
+      <h3>Add New Goal</h3>
+      <input type="text" id="goal-name" placeholder="Goal Name">
+      <input type="text" id="goal-purpose" placeholder="Purpose">
+      <input type="number" id="goal-saved" placeholder="Saved Amount">
+      <input type="number" id="goal-target" placeholder="Target Amount">
+      <input type="date" id="goal-deadline">
+      <button class="btn" onclick="addGoal()">Add</button>
+      <button class="btn" style="margin-left: 10px; background:#6b7280" onclick="document.getElementById('goal-modal').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <div class="modal" id="note-modal">
+    <div class="modal-content">
+      <h3>Add Note</h3>
+      <input type="text" id="note-content" placeholder="Your note here...">
+      <button class="btn" onclick="addNote()">Add</button>
+      <button class="btn" style="margin-left: 10px; background:#6b7280" onclick="document.getElementById('note-modal').style.display='none'">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    function addWallet() {
+  const name = document.getElementById('wallet-name').value;
+  const purpose = document.getElementById('wallet-purpose').value;
+  const amount = parseFloat(document.getElementById('wallet-amount').value);
+  if (!name || !purpose || isNaN(amount)) return;
+
+  const walletHTML = `<div class="wallet"><strong>${name}</strong><p style="color: #6b7280;">${purpose}</p><h3>฿${amount.toFixed(2)}</h3></div>`;
+  document.getElementById('wallets-container').insertAdjacentHTML('beforeend', walletHTML);
+  document.getElementById('wallet-modal').style.display = 'none';
+  document.getElementById('wallet-name').value = '';
+  document.getElementById('wallet-purpose').value = '';
+  document.getElementById('wallet-amount').value = '';
+
+  db.collection("wallets").add({
+    name,
+    purpose,
+    amount,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}</strong><p style="color: #6b7280;">${purpose}</p><h3>฿${amount.toFixed(2)}</h3></div>`;
+      document.getElementById('wallets-container').insertAdjacentHTML('beforeend', walletHTML);
+      document.getElementById('wallet-modal').style.display = 'none';
+      document.getElementById('wallet-name').value = '';
+      document.getElementById('wallet-purpose').value = '';
+      document.getElementById('wallet-amount').value = '';
+    }
+
+    function addGoal() {
+  const name = document.getElementById('goal-name').value;
+  const purpose = document.getElementById('goal-purpose').value;
+  const saved = parseFloat(document.getElementById('goal-saved').value);
+  const target = parseFloat(document.getElementById('goal-target').value);
+  const deadline = document.getElementById('goal-deadline').value;
+  if (!name || !purpose || isNaN(saved) || isNaN(target) || !deadline) return;
+
+  const percent = Math.min(100, (saved / target) * 100);
+  const goalHTML = `<div class="goal"><strong>${name}</strong><p style="color: #6b7280;">${purpose}</p><div class="progress-bar"><div class="progress-bar-inner" style="width: ${percent.toFixed(1)}%;"></div></div><small>฿${saved.toFixed(2)} / ฿${target.toFixed(2)}</small><p style="color: #9ca3af; font-size: 14px;">Deadline: ${deadline}</p></div>`;
+  document.getElementById('goals-container').insertAdjacentHTML('beforeend', goalHTML);
+  document.getElementById('goal-modal').style.display = 'none';
+  document.getElementById('goal-name').value = '';
+  document.getElementById('goal-purpose').value = '';
+  document.getElementById('goal-saved').value = '';
+  document.getElementById('goal-target').value = '';
+  document.getElementById('goal-deadline').value = '';
+
+  db.collection("goals").add({
+    name,
+    purpose,
+    saved,
+    target,
+    deadline,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}</strong><p style="color: #6b7280;">${purpose}</p><div class="progress-bar"><div class="progress-bar-inner" style="width: ${percent.toFixed(1)}%;"></div></div><small>฿${saved.toFixed(2)} / ฿${target.toFixed(2)}</small><p style="color: #9ca3af; font-size: 14px;">Deadline: ${deadline}</p></div>`;
+      document.getElementById('goals-container').insertAdjacentHTML('beforeend', goalHTML);
+      document.getElementById('goal-modal').style.display = 'none';
+      document.getElementById('goal-name').value = '';
+      document.getElementById('goal-purpose').value = '';
+      document.getElementById('goal-saved').value = '';
+      document.getElementById('goal-target').value = '';
+      document.getElementById('goal-deadline').value = '';
+    }
+
+    function addNote() {
+  const content = document.getElementById('note-content').value;
+  if (!content) return;
+  const noteBox = document.getElementById('note-box');
+  noteBox.innerHTML = `<p style='font-size: 24px;'>📝</p><p>${content}</p><small>Note added</small>`;
+  document.getElementById('note-count').innerText = '1';
+  document.getElementById('note-modal').style.display = 'none';
+  document.getElementById('note-content').value = '';
+
+  db.collection("notes").add({
+    content,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  });
+}</p><small>Note added</small>`;
+      document.getElementById('note-count').innerText = '1';
+      document.getElementById('note-modal').style.display = 'none';
+      document.getElementById('note-content').value = '';
+    }
+  
+        }
+  </script>
 </body>
 </html>
