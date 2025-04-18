@@ -14,6 +14,7 @@ body {
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    margin: 0;
 }
 
 .app-container {
@@ -167,4 +168,3 @@ button.delete-btn:hover {
         padding: 20px;
     }
 }
- 
