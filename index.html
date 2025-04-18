@@ -52,6 +52,20 @@
       padding: 8px; margin: 10px 0; width: 100%; border: 1px solid #000;
     }
   </style>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD8q7ry5dZt-pKlkSEoTEFPMujub2JTfkw",
+    authDomain: "my-awesome-project-104ff.firebaseapp.com",
+    projectId: "my-awesome-project-104ff",
+    storageBucket: "my-awesome-project-104ff.firebasestorage.app",
+    messagingSenderId: "65569755641",
+    appId: "1:65569755641:web:a01bce9d3d9c4f08ebad28"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+</script>
 </head>
 <body>
   <div class="main">
