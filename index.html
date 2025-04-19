@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moneyeer Dashboard</title>
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="main">
+    <div class="header">
+      <h1>Dashboard</h1>
+      <p>Track your financial goals and savings</p>
+    </div>
+    <div class="summary">
+      <div class="card">
+        <p>Total Balance</p>
+        <h2 id="total-balance">฿0.00</h2>
+        <p style="color: #9ca3af; font-size: 14px;">2 wallets</p>
+      </div>
+      <div class="card">
+        <p>Goals Progress</p>
+        <h2 id="goals-progress">0%</h2>
+        <p style="color: #9ca3af; font-size: 14px;">฿0.00 / ฿0.00</p>
+        <div class="progress-bar">
+          <div class="progress-bar-inner" style="width: 0%;"></div>
+        </div>
+      </div>
+      <div class="card">
+        <p>Notes</p>
+        <h2 id="note-count">0</h2>
+        <p style="color: #9ca3af; font-size: 14px;">Financial reminders & notes</p>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h3>Your Wallets</h3>
+      <button class="btn" onclick="openModal('wallet')">+ New Wallet</button>
+    </div>
+    <div class="wallets" id="wallets-container"></div>
+
+    <div class="section-header">
+      <h3>Savings Goals</h3>
+      <button class="btn" onclick="openModal('goal')">+ New Goal</button>
+    </div>
+    <div class="goals" id="goals-container"></div>
+
+    <div class="section-header">
+      <h3>Recent Notes</h3>
+      <button class="btn" onclick="openModal('note')">+ New Note</button>
+    </div>
+    <div class="note-box" id="note-box"></div>
+  </div>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3 id="modal-title">Add Item</h3>
+      <input type="text" id="modal-name" placeholder="Name" />
+      <input type="text" id="modal-purpose" placeholder="Purpose / Description" />
+      <input type="number" id="modal-amount" placeholder="Amount / Saved" />
+      <input type="number" id="modal-target" placeholder="Target (for Goals)" />
+      <input type="date" id="modal-deadline" placeholder="Deadline (for Goals)" />
+      <textarea id="modal-note" placeholder="Note Content" style="display: none;"></textarea>
+      <button class="btn" onclick="saveItem()">Save</button>
+      <button class="btn" onclick="closeModal()" style="margin-left: 10px; background: gray">Cancel</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8q7ry5dZt-pKlkSEoTEFPMujub2JTfkw",
+      authDomain: "my-awesome-project-104ff.firebaseapp.com",
+      projectId: "my-awesome-project-104ff",
+      storageBucket: "my-awesome-project-104ff.firebasestorage.app",
+      messagingSenderId: "65569755641",
+      appId: "1:65569755641:web:a01bce9d3d9c4f08ebad28"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function fetchTotalBalance() {
+      const querySnapshot = await getDocs(collection(db, "wallets"));
+      let totalBalance = 0;
+      querySnapshot.forEach((doc) => {
+        totalBalance += doc.data().amount;
+      });
+      document.getElementById("total-balance").innerText = `฿${totalBalance.toFixed(2)}`;
+    }
+
+    async function fetchGoalsProgress() {
+      const querySnapshot = await getDocs(collection(db, "goals"));
+      let totalSaved = 0, totalTarget = 0;
+      querySnapshot.forEach((doc) => {
+        totalSaved += doc.data().saved;
+        totalTarget += doc.data().target;
+      });
+      const progress = (totalSaved / totalTarget) * 100;
+      document.getElementById("goals-progress").innerText = `${progress.toFixed(2)}%`;
+      document.querySelector('.progress-bar-inner').style.width = `${progress.toFixed(2)}%`;
+    }
+
+    async function fetchNotesCount() {
+      const querySnapshot = await getDocs(collection(db, "notes"));
+      const noteCount = querySnapshot.size;
+      document.getElementById("note-count").innerText = noteCount;
+    }
+
+    window.onload = function() {
+      fetchTotalBalance();
+      fetchGoalsProgress();
+      fetchNotesCount();
+    };
+
+    function openModal(itemType) {
+      const modal = document.getElementById("modal");
+      modal.style.display = "flex";
+      document.getElementById("modal-title").innerText = `Add ${itemType.charAt(0).toUpperCase() + itemType.slice(1)}`;
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+      document.querySelectorAll('#modal input, #modal textarea').forEach(el => el.value = '');
+    }
+
+    function saveItem() {
+      const name = document.getElementById('modal-name').value;
+      const purpose = document.getElementById('modal-purpose').value;
+      const amount = document.getElementById('modal-amount').value;
+      const target = document.getElementById('modal-target').value;
+      const deadline = document.getElementById('modal-deadline').value;
+      const note = document.getElementById('modal-note').value;
+
+      closeModal();
+    }
+  </script>
+</body>
+</html>
